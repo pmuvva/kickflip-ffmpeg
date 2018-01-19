@@ -1,0 +1,4 @@
+
+include ':sdk-module'
+project(':sdk-module').projectDir = new File(rootProject.projectDir,'../kickflip-android-sdk/sdk')
+include ':app'

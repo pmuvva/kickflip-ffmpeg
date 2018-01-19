@@ -1,0 +1,51 @@
+#!/bin/bash
+
+#### PLEASE DO NOT MODIFY THIS EXAMPLE FILE
+#### THIS IS MEANT ONLY AS REFERENCE FOR YOUR OWN VERSION
+
+cd ffmpeg
+
+HOSTARCH=
+## Examples:
+## HOSTARCH=darwin-x86_64
+## HOSTARCH=linux-x86_64
+
+NDK=
+## Example:
+## NDK=$HOME/ndk/android-ndk-r15c
+
+SYSROOT=$NDK/platforms/android-21/arch-arm/
+TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/$HOSTARCH
+# Note: Change the TOOLCHAIN to match that available for your host system.
+# darwin-x86_64 is for Mac OS X, but you knew that.
+function build_one
+{
+../configure \
+    --prefix=$PREFIX \
+    --enable-shared \
+    --enable-static \
+    --enable-gpl \
+    --enable-libx264 \
+    --disable-programs \
+    --disable-optimizations \
+    --disable-stripping \
+    --disable-asm \
+    --assert-level=2 \
+    --enable-debug=3 \
+    --cross-prefix=$TOOLCHAIN/bin/arm-linux-androideabi- \
+    --target-os=linux \
+    --arch=arm \
+    --enable-cross-compile \
+    --sysroot=$SYSROOT \
+    --extra-cflags="-g -gdwarf-2 -g3 -O0 -fpic $ADDI_CFLAGS" \
+    --extra-ldflags="$ADDI_LDFLAGS" \
+    $ADDITIONAL_CONFIGURE_FLAG
+make clean
+make -j4
+make install
+}
+CPU=arm
+PREFIX=$(pwd)/../android/$CPU
+ADDI_CFLAGS="-marm -I ../android/arm/include/"
+ADDI_LDFLAGS="-L ../android/arm/lib/"
+build_one
