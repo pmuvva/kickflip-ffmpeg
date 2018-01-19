@@ -1,5 +1,0 @@
--keepclassmembers class * {
-  @com.google.api.client.util.Key <fields>;
-}
-
--keepattributes Signature,RuntimeVisibleAnnotations,AnnotationDefault

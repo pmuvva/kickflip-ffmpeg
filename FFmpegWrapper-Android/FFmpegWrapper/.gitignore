@@ -1,5 +1,0 @@
-jni/ffmpeg/*
-jni/include/*
-libs
-obj
-/build
